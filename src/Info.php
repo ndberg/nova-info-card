@@ -23,7 +23,7 @@ class Info extends Card
     /**
      * @var bool
      */
-    protected $withHeading = false;
+    protected bool $withHeading = false;
 
     /**
      * Get the component name for the element.
