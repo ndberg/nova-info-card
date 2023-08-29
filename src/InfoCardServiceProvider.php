@@ -1,6 +1,6 @@
 <?php
 
-namespace Pdmfc\NovaCards;
+namespace CrusherRL\NovaCards;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;

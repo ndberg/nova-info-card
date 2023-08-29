@@ -1,6 +1,6 @@
 <?php
 
-namespace Pdmfc\NovaCards;
+namespace CrusherRL\NovaCards;
 
 use Laravel\Nova\Card;
 
@@ -14,9 +14,26 @@ class Info extends Card
     public $width = 'full';
 
     /**
+     * The height strategy of the card.
+     *
+     * @var string
+     */
+    public $height = '30px';
+
+    /**
      * @var bool
      */
     protected $withHeading = false;
+
+    /**
+     * Get the component name for the element.
+     *
+     * @return string
+     */
+    public function component(): string
+    {
+        return 'info-card';
+    }
 
     /**
      * The message to be displayed.
@@ -25,13 +42,13 @@ class Info extends Card
      * @param string $theme
      * @return $this
      */
-    public function message(string $message, $theme = 'info'): self
+    public function message(string $message, string $theme = 'info'): self
     {
         return $this->withMeta(compact('message', 'theme'));
     }
 
     /**
-     * Displays message with a "info" theme.
+     * Displays message with an "info" theme.
      *
      * @param string $message
      * @return $this
@@ -77,7 +94,7 @@ class Info extends Card
     /**
      * Displays a heading with the given message.
      *
-     * @param string $message
+     * @param string $heading
      * @return $this
      */
     public function heading(string $heading): self
@@ -87,7 +104,12 @@ class Info extends Card
         return $this->withMeta(compact('heading'));
     }
 
-    public function asHtml()
+    /**
+     * Display the field as raw HTML using Vue.
+     *
+     * @return $this
+     */
+    public function asHtml(): self
     {
         return $this->withMeta(['asHtml' => true]);
     }
@@ -97,20 +119,11 @@ class Info extends Card
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
-        return array_merge([
+        return [
             'withHeading' => $this->withHeading,
-        ], parent::jsonSerialize());
-    }
-
-    /**
-     * Get the component name for the element.
-     *
-     * @return string
-     */
-    public function component(): string
-    {
-        return 'info-card';
+            ...parent::jsonSerialize()
+        ];
     }
 }

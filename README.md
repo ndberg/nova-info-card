@@ -1,27 +1,16 @@
 # Nova Info Card
-
-<p align="center">
-    <img src="images/hero.png" alt="hero image">
-</p>
-
-<p align=center>
-  <a href="https://packagist.org/packages/pdmfc/nova-info-card"><img src="https://poser.pugx.org/pdmfc/nova-info-card/d/total.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/pdmfc/nova-info-card"><img src="https://poser.pugx.org/pdmfc/nova-info-card/v/stable.svg" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/pdmfc/nova-info-card"><img src="https://poser.pugx.org/pdmfc/nova-info-card/license.svg" alt="License"></a>
-</p>
-
-This package provides an easy-and-simple way to add notification cards to a Laravel Nova Resource.
+This Project is a fork which is compatible with Nova 4. Also, this package provides an easy-and-simple way to add notification cards to a Laravel Nova Resource.
 
 ## Installation
 
 ```shell
-composer require pdmfc/nova-info-card
+composer require crusherrl/nova-info-card
 ```
 
 ## Usage
 
 ```php
-use Pdmfc\NovaCards\Info;
+use CrusherRL\NovaCards\Info;
 
 //...
 
@@ -72,8 +61,8 @@ If you want to render your message as raw html the same way that Nova lets you i
 
 ```php
 (new Info())
-    ->info('Be sure to like this package and give us your feedback in
-    <a href="https://github.com/pdmfc/nova-info-card/" class="underline font-bold text-blue-800">our repository</a>!')
+    ->info('Be sure to checkout the original Project 
+    <a href="https://github.com/pdmfc/nova-info-card/" class="underline font-bold text-blue-800">pdmfc/nova-info-card</a>!')
     ->asHtml(),
 ```
 
@@ -91,7 +80,7 @@ If you want to render your message as raw html the same way that Nova lets you i
     //...
 
     "require" {
-        "pdmfc/nova-info-card: "*"
+        "crusherrl/nova-info-card: "*"
     },
 
     //...
@@ -104,6 +93,6 @@ If you want to render your message as raw html the same way that Nova lets you i
 }
 ```
 
-- run `composer update pdmfc/nova-info-card`
+- run `composer update crusherrl/nova-info-card`
 
 You're now ready to start contributing!
