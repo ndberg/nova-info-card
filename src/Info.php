@@ -21,6 +21,28 @@ class Info extends Card
     public $height = '30px';
 
     /**
+     * Custom color for the info card.
+     *
+     * Understands all css colors. There are also there are predefined color:
+     * 'blue-200'    => 'rgb(191 219 254)',
+     * 'green-200':  => 'rgb(187 247 208)',
+     * 'yellow-200': => 'rgb(254 240 138)',
+     * 'red-200':    => 'rgb(254 202 202)',
+     * 'blue-600':   => 'rgb(37 99 235)',
+     * 'green-600':  => 'rgb(22 163 74)',
+     * 'yellow-600': => 'rgb(202 138 4)',
+     * 'red-600':    => 'rgb(220 38 38)',
+     *
+     * @var array|null[]
+     */
+    public array $customColors = [
+      'border' => null,
+      'background' => null,
+      'text' => null,
+      'icon' => null
+    ];
+
+    /**
      * @var bool
      */
     protected bool $withHeading = false;
@@ -42,9 +64,22 @@ class Info extends Card
      * @param string $theme
      * @return $this
      */
-    public function message(string $message, string $theme = 'info'): self
+    public function message(string $message, string $theme = 'info'): static
     {
+        $this->colors();
         return $this->withMeta(compact('message', 'theme'));
+    }
+
+    /**
+     * The message to be displayed.
+     *
+     * @param string $message
+     * @param string $theme
+     * @return $this
+     */
+    private function colors(): static
+    {
+        return $this->withMeta(['colors' => $this->customColors]);
     }
 
     /**
@@ -53,7 +88,7 @@ class Info extends Card
      * @param string $message
      * @return $this
      */
-    public function info(string $message): self
+    public function info(string $message): static
     {
         return $this->message($message);
     }
@@ -64,7 +99,7 @@ class Info extends Card
      * @param string $message
      * @return $this
      */
-    public function success(string $message): self
+    public function success(string $message): static
     {
         return $this->message($message, 'success');
     }
@@ -75,7 +110,7 @@ class Info extends Card
      * @param string $message
      * @return $this
      */
-    public function warning(string $message): self
+    public function warning(string $message): static
     {
         return $this->message($message, 'warning');
     }
@@ -86,7 +121,7 @@ class Info extends Card
      * @param string $message
      * @return $this
      */
-    public function danger(string $message): self
+    public function danger(string $message): static
     {
         return $this->message($message, 'danger');
     }
@@ -97,7 +132,7 @@ class Info extends Card
      * @param string $heading
      * @return $this
      */
-    public function heading(string $heading): self
+    public function heading(string $heading): static
     {
         $this->withHeading = true;
 
@@ -109,7 +144,7 @@ class Info extends Card
      *
      * @return $this
      */
-    public function asHtml(): self
+    public function asHtml(): static
     {
         return $this->withMeta(['asHtml' => true]);
     }
@@ -123,7 +158,79 @@ class Info extends Card
     {
         return [
             'withHeading' => $this->withHeading,
+            'colors' => $this->customColors,
             ...parent::jsonSerialize()
         ];
+    }
+
+    /**
+     * Custom Color for Text.
+     *
+     * @param string|null $color
+     * @return $this
+     */
+    public function setTextColor(?string $color): static
+    {
+      $this->customColors['text'] = $color;
+
+      return $this->colors();
+    }
+
+    /**
+     * Custom Color for Background.
+     *
+     * @param string|null $color
+     * @return $this
+     */
+    public function setBackgroundColor(?string $color): static
+    {
+      $this->customColors['background'] = $color;
+
+      return $this->colors();
+    }
+
+    /**
+     * Custom Color for Icon.
+     *
+     * @param string|null $color
+     * @return $this
+     */
+    public function setIconColor(?string $color): static
+    {
+      $this->customColors['icon'] = $color;
+
+      return $this->colors();
+    }
+
+    /**
+     * Custom Color for Border.
+     *
+     * @param string|null $color
+     * @return $this
+     */
+    public function setBorderColor(?string $color): static
+    {
+      $this->customColors['border'] = $color;
+
+      return $this->colors();
+    }
+
+    /**
+     * Custom Color for Border.
+     *
+     * @param array $colors
+     * @return $this
+     */
+    public function setColors(array $colors): static
+    {
+      foreach (array_keys($this->customColors) as $key) {
+        if (empty($colors[$key])) {
+          continue;
+        }
+
+        $this->customColors[$key] = $colors[$key];
+      }
+
+      return $this->colors();
     }
 }

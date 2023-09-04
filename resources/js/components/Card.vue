@@ -1,20 +1,17 @@
 <template>
-  <Card class="info-card border-t-4 card flex items-center p-3 shadow-md rounded-lg" :class="containerClasses">
-    <div class="w-6 h-6 mr-4" :class="[{ 'self-start': card.withHeading }, iconClasses]">
-      <svg
-        :id="`${card.theme}-icon`"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        class="fill-current"
-      >
-        <path :d="getPathFromTheme"/>
-      </svg>
-    </div>
-    <div>
-      <h2 v-if="card.withHeading" :class="headingClasses">{{ card.heading }}</h2>
-      <p :class="messageClasses" v-if="card.asHtml" v-html="card.message"/>
-      <p :class="messageClasses" v-else v-text="card.message"/>
-    </div>
+  <Card>
+    <div class="info-card card" :style="[containerClasses]">
+      <div class="info-card-icon-container">
+        <svg :id="`${card.theme}-icon`" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :style="[iconClasses]">
+          <path :d="getPathFromTheme"/>
+        </svg>
+      </div>
+      <div class="info-card-text-container">
+        <h2 v-if="card.withHeading" :style="[messageClasses]">{{ card.heading }}</h2>
+        <p :style="messageClasses" v-if="card.asHtml" v-html="card.message"/>
+        <p :style="messageClasses" v-else v-text="card.message"/>
+      </div>
+  </div>
   </Card>
 </template>
 
@@ -44,6 +41,16 @@ export default {
       danger: {
         color: "red"
       }
+    },
+    colors: {
+      'blue-200': 'rgb(191 219 254)',
+      'green-200': 'rgb(187 247 208)',
+      'yellow-200': 'rgb(254 240 138)',
+      'red-200': 'rgb(254 202 202)',
+      'blue-600': 'rgb(37 99 235)',
+      'green-600': 'rgb(22 163 74)',
+      'yellow-600': 'rgb(202 138 4)',
+      'red-600': 'rgb(220 38 38)',
     }
   }),
 
@@ -57,19 +64,18 @@ export default {
     },
 
     containerClasses() {
-      return `bg-${this.color}-200 border-${this.color}-600`
-    },
+      const backgroundColor = this.getColor('background', `${this.color}-200`)
+      const color = this.getColor('border', `${this.color}-600`)
 
-    iconClasses() {
-      return `text-${this.color}-600`
+      return {...backgroundColor, ...color}
     },
 
     messageClasses() {
-      return `text-${this.color}-800`
+      return this.getColor('text', `${this.color}-600`)
     },
 
-    headingClasses() {
-      return `text-lg font-bold ${this.messageClasses} leading-none mb-1`
+    iconClasses() {
+      return this.getColor('icon', `${this.color}-600`)
     },
 
     getPathFromTheme() {
@@ -84,6 +90,61 @@ export default {
           return "M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
       }
     }
+  },
+
+  methods: {
+    getColorStyle(color, part = '') {
+      switch (part) {
+        case 'background':
+          part = 'backgroundColor'
+          break;
+        case 'text':
+          part = 'color'
+          break;
+        case 'border':
+          part = 'borderColor'
+          break;
+        case 'icon':
+          part = 'fill'
+      }
+
+      console.log({[part]: this.colors[color] ?? color})
+
+      return {
+        [part]: this.colors[color] ?? color
+      }
+    },
+
+    getCustomColor(part, fallbackColor) {
+      return this.card.colors[part] ?? this.card.colors[fallbackColor] ?? fallbackColor
+    },
+
+    getColor(part, fallback) {
+      return this.getColorStyle(this.getCustomColor(part, fallback), part)
+    }
   }
 }
 </script>
+
+<style>
+.info-card {
+  align-items: center;
+  border-top-width: 4px;
+  border-radius: .5rem;
+  display: flex;
+  padding: .75rem;
+}
+
+.info-card .info-card-icon-container {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+  align-self: flex-start;
+}
+
+.info-card .info-card-text-container {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+</style>
