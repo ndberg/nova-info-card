@@ -70,6 +70,53 @@ If you want to render your message as raw html the same way that Nova lets you i
 
 ---
 
+### Customizing with colors
+Currently, the newest feature is to colorize specific or all parts of the card html.
+
+Example to colorize the whole component:
+
+```php
+(new Info())
+    ->info('Be sure to checkout the original Project <a href="https://github.com/pdmfc/nova-info-card/" class="underline font-bold text-blue-800">pdmfc/nova-info-card</a>!')
+    ->setColors([
+        'border' => 'rgb(48 107 203)',
+        'background' => 'hsl(217.09deg 88.71% 75.69%)',
+        'text' => '#4f4f4f',
+        'icon' => 'black'
+    ])
+    ->asHtml(),
+```
+
+![Rendering Colorized raw Html](images/raw_colorized_html_example.png)
+
+Also, you can set only specific parts, like only icon or only border.
+
+```php
+(new Info())
+    ->info('Be sure to checkout the original Project<a href="https://github.com/pdmfc/nova-info-card/" class="underline font-bold text-blue-800">pdmfc/nova-info-card</a>!')
+    ->setBorderColor('rgb(48 107 203)')
+    ->setBackgroundColor('blue-200')
+    ->setTextColor('#4f4f4f')
+    ->setIconColor('black')
+    ->asHtml(),
+```
+
+As you may have seen, there is a color called 'blue-200'. That's because is a predefined color which you can see here:
+```json
+{
+  "blue-200": "rgb(191 219 254)",
+  "green-200": "rgb(187 247 208)",
+  "yellow-200": "rgb(254 240 138)",
+  "red-200": "rgb(254 202 202)",
+  "blue-600": "rgb(37 99 235)",
+  "green-600": "rgb(22 163 74)",
+  "yellow-600": "rgb(202 138 4)",
+  "red-600": "rgb(220 38 38)"
+}
+```
+
+---
+
 ## How to contribute
 
 - clone the repo

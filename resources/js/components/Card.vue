@@ -108,8 +108,6 @@ export default {
           part = 'fill'
       }
 
-      console.log({[part]: this.colors[color] ?? color})
-
       return {
         [part]: this.colors[color] ?? color
       }
